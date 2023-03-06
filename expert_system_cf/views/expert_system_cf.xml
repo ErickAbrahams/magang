@@ -1,0 +1,75 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="expert_system_cf.list">
+      <field name="name">Expert System List</field>
+      <field name="model">expert_system_cf.expert_system_cf</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="expert_system_cf.form">
+      <field name="name">Expert System</field>
+      <field name="model">expert_system_cf.expert_system_cf</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <div class="oe_title">
+                <label for="name"/>
+                <h1><field name="name"/></h1>
+            </div>
+            <field name="question_factor_ids">
+              <tree editable="bottom">
+                <field name='question'/>
+                <field name='cf_1'/>
+                <field name='cf_2'/>
+              </tree>
+            </field>
+            <field name="option_ids">
+              <tree editable="bottom">
+                <field name='name'/>
+                <field name='certainty_factor'/>
+              </tree>
+            </field>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="expert_system_cf.action_window">
+      <field name="name">Expert System CF</field>
+      <field name="res_model">expert_system_cf.expert_system_cf</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+
+    <record model="ir.actions.server" id="expert_system_cf.action_server">
+      <field name="name">expert_system_cf server</field>
+      <field name="model_id" ref="model_expert_system_cf_expert_system_cf"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+
+
+    <!-- Top menu item -->
+
+    <menuitem name="Expert System" id="expert_system_cf.menu_root"/>
+    <menuitem name="Expert System CF" id="expert_system_cf.menu_1" parent="expert_system_cf.menu_root" action="expert_system_cf.action_window"/>
+  </data>
+</odoo>

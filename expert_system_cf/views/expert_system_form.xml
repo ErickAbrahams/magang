@@ -1,0 +1,76 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="expert_system_cf.form_list">
+      <field name="name">Expert System Form List</field>
+      <field name="model">expert_system_cf.form</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="expert_system_cf_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="expert_system_cf.form_form">
+      <field name="name">Expert System Form</field>
+      <field name="model">expert_system_cf.form</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <button name="action_confirm" string="Confirm" type="object" states="draft" class="btn-primary"/>
+            <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+          </header>
+          <sheet>
+            <div class="oe_title">
+                <label for="expert_system_cf_id"/>
+                <h1><field name="expert_system_cf_id"/></h1>
+            </div>
+            <group>
+                <group>
+                    <field name='partner_id'/>
+                </group>
+                <group>
+                    <field name='result' states='done'/>
+                </group>
+            </group>
+            <field name="answer_ids" attrs="{'readonly': [('state', '=', 'done')]}">
+              <tree editable="bottom">
+                <field name='question_id'/>
+                <field name='answer'/>
+              </tree>
+            </field>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="expert_system_cf.form_action_window">
+      <field name="name">Expert System Form</field>
+      <field name="res_model">expert_system_cf.form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+
+    <!-- <record model="ir.actions.server" id="expert_system_cf.form_action_server">
+      <field name="name">expert_system_form server</field>
+      <field name="model_id" ref="model_expert_system_cf_expert_system_cf_form"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record> -->
+
+    <menuitem name="Form" id="expert_system_cf.menu_form" parent="expert_system_cf.menu_root" action="expert_system_cf.form_action_window"/>
+  </data>
+</odoo>

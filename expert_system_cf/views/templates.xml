@@ -1,0 +1,79 @@
+<odoo>
+    <data>
+      <!-- <template id="assets_frontend" inherit_id="portal.assets_frontend" name="Website Assets">
+        <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/expert_system_cf/static/source/form.js"/>
+        </xpath>
+    </template> -->
+      <template id="portal_expert_system_form" name="Expert System Form">
+        <t t-set="no_breadcrumbs" t-value="True"/>
+        <t t-call="portal.portal_layout">
+            <t t-set="title"><t t-esc='name'></t></t>
+            <main>
+              <div class="row">
+                <div class="container text-center my-3">
+                  <h3><t t-esc='name'></t></h3>
+                  <strong>Syarat: </strong><span>Daging harus dicuci terlebih dahulu</span>
+                </div>
+              </div>
+              <div class="card my-4">
+                <div class="card-body text-center">
+                  <h5 class="font-weight-bold mb-3">Pertanyaan</h5>
+                  <div class="o_expert_system_form"
+                    t-att-data-questions="json.dumps(questions)"
+                    t-att-data-options="json.dumps(options)"
+                    t-att-data-id="id"
+                    />
+                </div>
+              </div>
+              
+            </main>
+        </t>
+      </template>
+      <template id="portal_expert_system_not_available" name="Expert System Not Available">
+        <t t-set="no_breadcrumbs" t-value="True"/>
+        <t t-call="portal.portal_layout">
+            <t t-set="title"><t t-esc='name'></t></t>
+            <main class="modal-body">
+              Belum ada sistem pakar
+            </main>
+        </t>
+      </template>
+      <template id="portal_expert_system_form_result" name="Expert System Form">
+        <t t-set="no_breadcrumbs" t-value="True"/>
+        <t t-call="portal.portal_layout">
+            <t t-set="title"><t t-esc="form.expert_system_cf_id.name"></t></t>
+            <main>
+              <div class="row">
+                <div class="container text-center my-3">
+                  <h3><t t-esc="form.expert_system_cf_id.name"/></h3>
+                </div>
+              </div>
+              <table class="table table-bordered">
+                <thead>
+                  <tr class='text-right'>
+                    <td colspan="3">Hasil: <strong><t t-esc="form.result"/></strong></td>
+                  </tr>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Pertanyaan</th>
+                    <th scope="col">Jawaban</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <t t-set="number" t-value="1"/>
+                    <t t-foreach='form.answer_ids' t-as='answer'>
+                      <tr>
+                        <th scope="row"><t t-esc="number"/></th>
+                        <td><t t-esc="answer.question_id.question"/></td>
+                        <td><t t-esc="answer.answer.name"/></td>
+                      </tr>
+                      <t t-set="number" t-value="number + 1"/>
+                  </t>
+                </tbody>
+              </table>
+            </main>
+        </t>
+      </template>
+    </data>
+</odoo>

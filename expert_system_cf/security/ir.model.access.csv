@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_expert_system_cf_expert_system_cf,expert_system_cf.expert_system_cf,model_expert_system_cf_expert_system_cf,base.group_user,1,1,1,1
+access_expert_system_cf_question,expert_system_cf.question,model_expert_system_cf_question,base.group_user,1,1,1,1
+access_expert_system_cf_option,expert_system_cf.option,model_expert_system_cf_option,base.group_user,1,1,1,1
+access_expert_system_cf_form,expert_system_cf.form,model_expert_system_cf_form,base.group_user,1,1,1,1
+access_expert_system_cf_answer,expert_system_cf.answer,model_expert_system_cf_answer,base.group_user,1,1,1,1
