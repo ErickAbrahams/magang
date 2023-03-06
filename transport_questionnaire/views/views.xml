@@ -1,0 +1,118 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="transport_questionnaire.list">
+      <field name="name">transport_questionnaire list</field>
+      <field name="model">transport_questionnaire.transport_questionnaire</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="action_window">
+      <field name="name">Transport Questionnaire</field>
+      <field name="res_model">transport.questionnaire</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="transport_questionnaire_tree_view" model="ir.ui.view">
+        <field name="name">transport.questionnaire.tree</field>
+        <field name="model">transport.questionnaire</field>
+        <field name="arch" type="xml">
+            <tree string="Questionnaire" create="false" edit="false">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="is_halal"/>
+                <field name="write_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="transport_questionnaire_form_view" model="ir.ui.view">
+        <field name="name">transport.questionnaire.form</field>
+        <field name="model">transport.questionnaire</field>
+        <field name="arch" type="xml">
+            <form string="Questionnaire" create="false" edit="false">
+              <header>
+                <button name="action_confirm" string="Confirm" type="object" states="draft" class="btn-primary"/>
+                <button name="action_process" string="Process" type="object" states="process" class="btn-primary"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,process,done"/>
+              </header>
+              <sheet>
+                <div class="oe_title">
+                    <label for="partner_id"/>
+                    <h1><field name="partner_id"/></h1>
+                </div>
+                <group>
+                  <field name="no_lot"/>
+                  <field name="waktu_berangkat"/>
+                  <field name="waktu_sampai"/>
+                </group>
+                <group>
+                  <group>
+                    <field name="has_certificate" widget='radio'/>
+                  </group>
+                  <group attrs="{'invisible': [('has_certificate', '!=', 'yes')]}">
+                    <field name="certificate_no"/>
+                    <field name="certificate_exp"/>
+                  </group>
+                </group>
+
+                <group attrs="{'invisible': [('has_certificate', '!=', 'no')]}">
+                  <group>
+                    <field name="join_other_goods" widget='radio'/>
+                    <br/>
+                    <field name="other_goods_is_halal" widget='radio' attrs="{'invisible': [('join_other_goods', '!=', 'yes')]}"/>
+                    <br/>
+                    <field name="mix_with_other_goods" widget='radio' attrs="{'invisible': [('other_goods_is_halal', '!=', 'yes')]}"/>
+                  </group>
+                </group>
+
+
+                <group>
+                  <group>
+                    <field name="is_halal" attrs="{'invisible': [('state', '!=', 'done')], 'readonly': True}"/>
+                  </group>
+                </group>
+              </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="transport_questionnaire.action_server">
+      <field name="name">transport_questionnaire server</field>
+      <field name="model_id" ref="model_transport_questionnaire_transport_questionnaire"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="transport_questionnaire" id="transport_questionnaire.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="transport_questionnaire.menu_1" parent="transport_questionnaire.menu_root"/>
+    <menuitem name="Menu 2" id="transport_questionnaire.menu_2" parent="transport_questionnaire.menu_root"/>
+-->
+    <!-- actions -->
+    
+    <menuitem name="Transport" id="menu_transport" parent="restaurant_questionnaire.menu_root" action="action_window"/>
+  </data>
+</odoo>

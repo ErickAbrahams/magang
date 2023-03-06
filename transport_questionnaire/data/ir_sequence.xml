@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Questionnaire Sequence -->   
+        <record id="sequence_transport_questionnaire_seq" model="ir.sequence">
+            <field name="name">Transport Questionnaire sequence</field>
+            <field name="code">transport.questionnaire</field>
+            <field name="prefix">TRANSPORT</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
+        </record>
+    </data>
+</odoo>
