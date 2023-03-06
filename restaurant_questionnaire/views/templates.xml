@@ -1,0 +1,466 @@
+<odoo>
+    <data>
+    <template id="portal_my_home_restaurant_questionnaire" name="Show Restaurant Questionnaire" customize_show="True" inherit_id="portal.portal_my_home" priority="30">
+          <xpath expr="//div[hasclass('o_portal_my_home')]" position="replace">
+          <div class="oe_structure" id="oe_structure_portal_my_home_1">
+            <br/>
+            <div class="o_portal_my_home" id="o_portal_certificate">
+                <h3>Sertifikat Halal</h3>
+                <t t-if="is_restaurant">
+                    <t t-call="portal.portal_docs_entry">
+                        <div class="o_portal_certificate list-group">
+                            <t t-set="title">Restaurant</t>
+                            <t t-set="url" t-value="'/my/restaurant_questionnaire'"/>
+                            <t t-set="placeholder_count" t-value="'restaurant_questionnaire_state'"/>
+                        </div>
+                    </t>
+                </t>
+            </div>
+          </div>
+        </xpath>
+    </template>
+    <template id="portal_my_restaurant_questionnaire" name="Restaurant Questionnaire">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-set="title">Restaurant Questionnaire</t>
+            <t t-set="additional_title">Restaurant Questionnaire</t>
+
+            <div class="col-lg-8">
+                <header class="modal-header">
+                    <a href="/my/home" aria-label="Home" title="Home"><i class="fa fa-home"/></a>
+                    <h4 class="modal-title">Restaurant Questionnaire</h4>
+                    <a href="/my/new_restaurant_questionnaire">Ajukan Baru</a>
+                </header>
+            </div>
+            <main class="modal-body">
+                <div class="row">
+                    <t t-if="not questionnaire">
+                        Belum ada kuesioner
+                    </t>
+                    <t t-foreach="questionnaire" t-as="quest">
+                        <div class='col-lg-8 mb-3'>
+                            <div class='card'>
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong><t t-esc="quest.name"/></strong>
+                                        </div>
+                                        <div class="col-6">
+                                            <span t-if="quest.is_halal == 'halal'"  class="float-right badge badge-info">
+                                                <i class="fa fa-fw fa-check" role="img" aria-label="Halal" title="Halal"/>Halal
+                                            </span>
+                                            <span t-if="quest.is_halal == 'non-halal'"  class="float-right badge badge-warning">
+                                                <i class="fa fa-fw fa-close" role="img" aria-label="Non-Halal" title="Non-Halal"/>Non-Halal
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                Apakah anda memiliki sertifikat kehalalan ?
+                                            </td>
+                                            <td class='p-4'/>
+                                            <td>
+                                                <t t-if="quest.has_certificate == 'yes'">
+                                                    <b>Ya</b>
+                                                </t>
+                                                <t t-if="quest.has_certificate == 'no'">
+                                                    <b>Tidak</b>
+                                                </t>
+                                            </td>
+                                        </tr>
+
+                                        <t t-if="quest.has_certificate == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Sertifikat Halal
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <b><t t-esc="quest.certificate_no"/></b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Berlaku sampai tanggal
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <b><t t-esc="quest.certificate_exp"/></b>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <t t-if="quest.has_certificate == 'no'">
+                                            <tr>
+                                                <td>
+                                                    Disajikan di tempat berlapis emas?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.serve_with_gold == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.serve_with_gold == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="quest.serve_with_gold == 'no'">
+                                            <tr>
+                                                <td>
+                                                    Dimasak dengan bahan lain?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.cook_with_other_goods == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.cook_with_other_goods == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="quest.cook_with_other_goods == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Bahan lain memiliki kehalalan?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.other_goods_is_halal == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.other_goods_is_halal == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </main>
+        </t>
+      </template>
+
+    <template id="portal_view_restaurant_questionnaire" name="Restaurant Questionnaire">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-set="title">Restaurant Questionnaire</t>
+            <t t-set="additional_title">Restaurant Questionnaire</t>
+
+            <div class="col-lg-8">
+                <header class="modal-header">
+                    <a href="/my/home" aria-label="Home" title="Home"><i class="fa fa-home"/></a>
+                    <h4 class="modal-title">Restaurant Questionnaire</h4>
+                </header>
+            </div>
+            <main class="modal-body">
+                <div class="row">
+                    <t t-if="not questionnaire">
+                        Belum ada kuesioner
+                    </t>
+                    <t t-foreach="questionnaire" t-as="quest">
+                        <div class='col-lg-8 mb-3'>
+                            <div class='card'>
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong><t t-esc="quest.name"/></strong>
+                                        </div>
+                                        <div class="col-6">
+                                            <span t-if="quest.is_halal == 'halal'"  class="float-right badge badge-info">
+                                                <i class="fa fa-fw fa-check" role="img" aria-label="Halal" title="Halal"/>Halal
+                                            </span>
+                                            <span t-if="quest.is_halal == 'non-halal'"  class="float-right badge badge-warning">
+                                                <i class="fa fa-fw fa-close" role="img" aria-label="Non-Halal" title="Non-Halal"/>Non-Halal
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                Apakah anda memiliki sertifikat kehalalan ?
+                                            </td>
+                                            <td class='p-4'/>
+                                            <td>
+                                                <t t-if="quest.has_certificate == 'yes'">
+                                                    <b>Ya</b>
+                                                </t>
+                                                <t t-if="quest.has_certificate == 'no'">
+                                                    <b>Tidak</b>
+                                                </t>
+                                            </td>
+                                        </tr>
+
+                                        <t t-if="quest.has_certificate == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Sertifikat Halal
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <b><t t-esc="quest.certificate_no"/></b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Berlaku sampai tanggal
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <b><t t-esc="quest.certificate_exp"/></b>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <t t-if="quest.has_certificate == 'no'">
+                                            <tr>
+                                                <td>
+                                                    Disajikan di tempat berlapis emas?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.serve_with_gold == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.serve_with_gold == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="quest.serve_with_gold == 'no'">
+                                            <tr>
+                                                <td>
+                                                    Dimasak dengan bahan lain?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.cook_with_other_goods == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.cook_with_other_goods == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="quest.cook_with_other_goods == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Bahan lain memiliki kehalalan?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.other_goods_is_halal == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.other_goods_is_halal == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </main>
+        </t>
+      </template>
+
+      <template id="portal_new_restaurant_questionnaire" name="Restaurant New Questionnaire">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">New Restaurant Questionnaire</t>
+            </t>
+            <div class="row">
+                <div class="col-lg-12">
+                    <form id="accept" method="POST" class="js_accept_json modal-content js_website_submit_form">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <header class="modal-header">
+                            <h4 class="modal-title">Restaurant Questionnaire</h4>
+                        </header>
+                        <main class="modal-body" id="sign-dialog">
+                            
+                            <t t-if="show == 'no_lot'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Nomor Lot</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="text" id="no_lot" name="no_lot"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='no_lot' t-att-value="data.get('no_lot')"/>
+                            </t>
+                            
+                            <t t-if="show == 'waktu_kedatangan'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Kapan waktu kedatangan pengiriman?</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="date" id="waktu_kedatangan" name="waktu_kedatangan"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='waktu_kedatangan' t-att-value="data.get('waktu_kedatangan')"/>
+                            </t>
+                            
+                            <t t-if="show == 'waktu_diolah'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Kapan waktu barang diolah?</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="date" id="waktu_diolah" name="waktu_diolah"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='waktu_diolah' t-att-value="data.get('waktu_diolah')"/>
+                            </t>
+                            
+                            <t t-if="show == 'has_certificate'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Apakah anda memiliki sertifikat kehalalan ?</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="radio" id="has_certificate_yes" name="has_certificate" value="yes"/>
+                                        <label for="has_certificate_yes">Yes</label><br/>
+                                        
+                                        <input type="radio" id="has_certificate_no" name="has_certificate" value="no"/>
+                                        <label for="has_certificate_no">No</label><br/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='has_certificate' t-att-value="data.get('has_certificate')"/>
+                            </t>
+
+                            <t t-if="show == 'certificate_no'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label for="certificate_no">No Sertifikat</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="text" id="certificate_no" name="certificate_no"/>
+                                    </div>
+                                    <div class="col-lg-12  mt-4">
+                                        <label for="certificate_exp">Tanggal Berakhir Sertifikat</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="date" id="certificate_exp" name="certificate_exp"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='certificate_no' t-att-value="data.get('certificate_no')"/>
+                                <input type='hidden' name='certificate_exp' t-att-value="data.get('certificate_exp')"/>
+                            </t>
+                            <t t-if="show == 'serve_with_gold'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Disajikan di tempat berlapis emas?</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="radio" id="serve_with_gold_yes" name="serve_with_gold" value="yes"/>
+                                        <label for="serve_with_gold_yes">Yes</label><br/>
+                                        <input type="radio" id="serve_with_gold_no" name="serve_with_gold" value="no"/>
+                                        <label for="serve_with_gold_no">No</label><br/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='serve_with_gold' t-att-value="data.get('serve_with_gold')"/>
+                            </t>
+
+                            <t t-if="show == 'cook_with_other_goods'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Dimasak dengan bahan lain?</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="radio" id="cook_with_other_goods_yes" name="cook_with_other_goods" value="yes"/>
+                                        <label for="cook_with_other_goods_yes">Yes</label><br/>
+                                        <input type="radio" id="cook_with_other_goods_no" name="cook_with_other_goods" value="no"/>
+                                        <label for="cook_with_other_goods_no">No</label><br/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='cook_with_other_goods' t-att-value="data.get('cook_with_other_goods')"/>
+                            </t>
+
+                            <t t-if="show == 'other_goods_is_halal'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Bahan lain memiliki kehalalan?</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="radio" id="other_goods_is_halal_yes" name="other_goods_is_halal" value="yes"/>
+                                        <label for="other_goods_is_halal_yes">Yes</label><br/>
+                                        <input type="radio" id="other_goods_is_halal_no" name="other_goods_is_halal" value="no"/>
+                                        <label for="other_goods_is_halal_no">No</label><br/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='other_goods_is_halal' t-att-value="data.get('other_goods_is_halal')"/>
+                            </t>
+
+                            <t t-if="show == 'other_goods_is_halal' or show == 'certificate_no'">
+                                <input type='hidden' name='apply' value='1'/>
+                                <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
+                            </t>
+                            <t t-else=''>
+                                <button type="submit" class="btn btn-primary mt-3">Selanjutnya</button>
+                            </t>
+                            
+                        </main>
+                    </form>
+                </div>
+            </div>
+        </t>
+      </template>
+
+      <template id="portal_new_restaurant_questionnaire_success" name="Restaurant New Questionnaire Success">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">New Restaurant Questionnaire</t>
+            </t>
+            <div class="row">
+                <div class="col-lg-12">
+                    <header class="modal-header">
+                        <h4 class="modal-title">Restaurant Questionnaire</h4>
+                    </header>
+                    <main class="modal-body" id="sign-dialog">
+                        <p>Terima kasih sudah mengisi formulir sertifikat halal</p>
+                        <a href="/my/restaurant_questionnaire">Kembali</a>
+                    </main>
+                </div>
+            </div>
+        </t>
+      </template>
+    </data>
+</odoo>
