@@ -1,0 +1,156 @@
+<odoo>
+    <data>
+        <!-- <template id="shop_product_certificate" inherit_id="website_sale.product" active="True" customize_show="True" name="Halal Certificates" priority="21">
+          <xpath expr="//section" position="after">
+            <t t-if='picking'>
+              <section class="container pb32">
+                <small t-field='picking.name'/>
+              </section>
+              <section class="container pb32">
+                <div class="row">
+                  <t t-if="picking.restaurant_partner_id">
+                    <div class='col-sm-6 col-md-4 pt32'>
+                      <group>
+                        <group style='float:left;padding-right:16px'>
+                          <img src='/website_product/static/img/restaurant.png' width='48px' height='48px'/>
+                        </group>
+                        <group>
+                          <small> Disediakan Oleh</small>
+                          <div>
+                            <span t-esc="picking.restaurant_partner_id.name" style='font-weight:bold'/>
+                          </div>
+                        </group>
+                      </group>  
+                      <group>
+                        <div>
+                          <small>Sertifikat Halal: </small>
+                          <small t-field='picking.restaurant_partner_id.certificate_no'/>
+                        </div>
+                        <div>
+                          <small>Expired Date: </small>
+                          <small t-field='picking.restaurant_partner_id.certificate_exp'/>
+                        </div>
+                      </group>
+                    </div>
+                  </t>
+                  <t t-if="picking.rph_partner_id">
+                    <div class='col-sm-6 col-md-4 pt32'>
+                      <group>
+                        <group style='float:left;padding-right:16px'>
+                          <img src='/website_product/static/img/barbecue.png' width='48px' height='48px'/>
+                        </group>
+                        <group>
+                          <small>Rumah Pemotongan Hewan</small>
+                          <div>
+                            <span t-esc='picking.rph_partner_id.name' style='font-weight:bold'/>
+                          </div>
+                        </group>
+                      </group>  
+                      <group>
+                        <div>
+                          <small>Sertifikat Halal: </small>
+                          <small t-esc='picking.rph_partner_id.certificate_no'/>
+                        </div>
+                        <div>
+                          <small>Expired Date: </small>
+                          <small t-field='picking.rph_partner_id.certificate_exp'/>
+                        </div>
+                      </group>
+                    </div>
+                  </t>
+
+                  <t t-if="picking.storage_partner_id">
+                    <div class='col-sm-6 col-md-4 pt32'>
+                      <group>
+                        <group style='float:left;padding-right:16px'>
+                          <img src='/website_product/static/img/warehouse.png' width='48px' height='48px'/>
+                        </group>
+                        <group>
+                          <small>Penyimpanan</small>
+                          <div>
+                            <span t-field='picking.storage_partner_id.name' style='font-weight:bold'/>
+                          </div>
+                        </group>
+                      </group>  
+                      <group>
+                        <div>
+                          <small>Sertifikat Halal: </small>
+                          <small t-field='picking.storage_partner_id.certificate_no'/>
+                        </div>
+                        <div>
+                          <small>Expired Date: </small>
+                          <small t-field='picking.storage_partner_id.certificate_exp'/>
+                        </div>
+                      </group>
+                    </div>
+                  </t>
+
+                  <t t-if="picking.transport_partner_id">
+                    <div class='col-sm-6 col-md-4 pt32'>
+                      <group>
+                        <group style='float:left;padding-right:16px'>
+                          <img src='/website_product/static/img/vehicles.png' width='48px' height='48px'/>
+                        </group>
+                        <group>
+                          <small>Pengiriman</small>
+                          <div>
+                            <span t-field='picking.transport_partner_id.name' style='font-weight:bold'/>
+                          </div>
+                        </group>
+                      </group>  
+                      <group>
+                        <div>
+                          <small>Sertifikat Halal: </small>
+                          <small t-field='picking.transport_partner_id.certificate_no'/>
+                        </div>
+                        <div>
+                          <small>Expired Date: </small>
+                          <small t-field='picking.transport_partner_id.certificate_exp'/>
+                        </div>
+                      </group>
+                    </div>
+                  </t>
+
+                  <div class='col-sm-6 col-md-4 pt32'>
+                    <group>
+                      <group style='float:left;padding-right:16px'>
+                        <img src='/website_product/static/img/building.png' width='48px' height='48px'/>
+                      </group>
+                      <group>
+                        <small>Distributor</small>
+                        <div>
+                          <span t-field='picking.partner_id.name' style='font-weight:bold'/>
+                        </div>
+                      </group>
+                    </group>  
+                    <group>
+                      <div>
+                        <small>Sertifikat Halal: </small>
+                        <small t-field='picking.partner_id.certificate_no'/>
+                      </div>
+                      <div>
+                        <small>Expired Date: </small>
+                        <small t-field='picking.partner_id.certificate_exp'/>
+                      </div>
+                    </group>
+                  </div>
+
+                </div>
+              </section>
+            </t>
+          </xpath>
+        </template>
+        <template id="portal_partner_certificate" inherit_id="portal.portal_my_details" active="True" customize_show="True" name="Partner Certificates" priority="21">
+          <xpath expr="//div/div/div/div[6]" position="after">
+            <div t-attf-class="form-group mb-1 #{error.get('certificate_no') and 'o_has_error' or ''} col-xl-6">
+                  <label class="col-form-label label-optional" for="certificate_no">Halal Certificate</label>
+                  <input type="text" name="certificate_no" t-attf-class="form-control #{error.get('certificate_no') and 'is-invalid' or ''}" t-att-value="certificate_no or partner.certificate_no"/>
+              </div>
+            <div t-attf-class="form-group mb-1 #{error.get('certificate_exp') and 'o_has_error' or ''} col-xl-6">
+                  <label class="col-form-label label-optional" for="certificate_exp">Cert Expired Date</label>
+                  <input type="text" name="certificate_exp" t-attf-class="form-control #{error.get('certificate_exp') and 'is-invalid' or ''}" t-att-value="certificate_exp or partner.certificate_exp"/>
+              </div>
+          </xpath>
+        </template> -->
+    </data>
+</odoo>
