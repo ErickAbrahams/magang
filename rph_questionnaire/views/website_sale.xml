@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+        <template id="rph_product_certificate" inherit_id="restaurant_questionnaire.restaurant_product_certificate" active="True" customize_show="True" name="Halal Certificates" priority="21">
+          <xpath expr="//div[@id='halal_certificate']" position="inside">
+          <t t-if="picking.rph_questionnaire_id">
+                    <div class='col-sm-6 col-md-4 pt32'>
+                      <group>
+                          <group style='float:left;padding-right:16px'>
+                          <img src='/website_product/static/img/barbecue.png' width='48px' height='48px'/>
+                          </group>
+                          <group>
+                          <small>Rumah Pemotongan Hewan</small>
+                          <div>
+                              <span t-esc='picking.rph_questionnaire_id.partner_id.name' style='font-weight:bold'/>
+                          </div>
+                          </group>
+                      </group>  
+                      <t t-if="picking.rph_questionnaire_id.has_certificate == 'yes'">
+                        <group>
+                            <div>
+                            <small>Sertifikat Halal: </small>
+                            <small t-esc='picking.rph_questionnaire_id.certificate_no'/>
+                            </div>
+                            <div>
+                            <small>Expired Date: </small>
+                            <small t-field='picking.rph_questionnaire_id.certificate_exp'/>
+                            </div>
+                        </group>
+                      </t>
+                      <t t-else="">
+                        <group>
+                            <div>
+                            <small>No Kuosioner: </small>
+                            <a  t-attf-href="/my/rph_questionnaire/{{picking.rph_questionnaire_id.id}}"><small t-esc='picking.rph_questionnaire_id.name'/></a>
+                            </div>
+                            <div>
+                            <small t-field='picking.rph_questionnaire_id.is_halal'/>
+                            </div>
+                        </group>
+                      </t>
+                    </div>
+                </t>
+          </xpath>
+        </template>
+    </data>
+</odoo>

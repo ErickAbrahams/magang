@@ -1,0 +1,687 @@
+<odoo>
+    <data>
+        <template id="portal_my_home_rph_questionnaire" name="Show RPH Questionnaire In Portal Home" customize_show="True" inherit_id="restaurant_questionnaire.portal_my_home_restaurant_questionnaire" priority="20">
+            <xpath expr="//div[@id='o_portal_certificate']" position="inside">
+                <t t-if="is_rph">
+                    <t t-call="portal.portal_docs_entry">
+                        <div class="o_portal_certificate list-group">
+                            <t t-set="title">Rumah Pemotongan Hewan (RPH)</t>
+                            <t t-set="url" t-value="'/my/rph_questionnaire'"/>
+                            <t t-set="placeholder_count" t-value="'rph_questionnaire_state'"/>
+                        </div>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+
+      <template id="portal_my_rph_questionnaire" name="RPH Questionnaire">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-set="title">RPH Questionnaire</t>
+            <t t-set="additional_title">RPH Questionnaire</t>
+
+            <div class="col-lg-8">
+                <header class="modal-header">
+                    <a href="/my/home" aria-label="Home" title="Home"><i class="fa fa-home"/></a>
+                    <h4 class="modal-title">RPH Questionnaire</h4>
+                    <a href="/my/rph_transfer">Ajukan Baru</a>
+                </header>
+            </div>
+            <main class="modal-body">
+                <div class="row">
+                    <t t-if="not questionnaire">
+                        Belum ada kuesioner
+                    </t>
+                    <t t-foreach="questionnaire" t-as="quest">
+                        <div class='col-lg-8 mb-3'>
+                            <div class='card'>
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong><t t-esc="quest.name"/></strong>
+                                        </div>
+                                        <div class="col-6">
+                                            <span t-if="quest.is_halal == 'halal'"  class="float-right badge badge-info">
+                                                <i class="fa fa-fw fa-check" role="img" aria-label="Halal" title="Halal"/>Halal
+                                            </span>
+                                            <span t-if="quest.is_halal == 'non-halal'"  class="float-right badge badge-warning">
+                                                <i class="fa fa-fw fa-close" role="img" aria-label="Non-Halal" title="Non-Halal"/>Non-Halal
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                Apakah anda memiliki sertifikat kehalalan ?
+                                            </td>
+                                            <td class='p-4'/>
+                                            <td>
+                                                <t t-if="quest.has_certificate == 'yes'">
+                                                    <b>Ya</b>
+                                                </t>
+                                                <t t-if="quest.has_certificate == 'no'">
+                                                    <b>Tidak</b>
+                                                </t>
+                                            </td>
+                                        </tr>
+
+                                        <t t-if="quest.has_certificate == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Sertifikat Halal
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <b><t t-esc="quest.certificate_no"/></b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Berlaku sampai tanggal
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <b><t t-esc="quest.certificate_exp"/></b>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <t t-if="quest.has_certificate == 'no'">
+                                            <tr>
+                                                <td>
+                                                    Apakah Penyembelih beragama islam?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.is_muslim == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.is_muslim == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="quest.is_muslim == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Apakah menggunakan pisau tajam dan sekali potong?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.use_sharp_knife == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.use_sharp_knife == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="quest.use_sharp_knife == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Apakah mengucap basmalah sebelum potong?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.with_basmalah == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.with_basmalah == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="quest.with_basmalah == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Apakah pemotongan memutus saluran pernafasan dan dua urat leher ?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.correctly_cut == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.correctly_cut == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </main>
+        </t>
+      </template>
+
+      <template id="portal_rph_transfer" name="RPH Questionnaire">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-set="title">RPH Transfer</t>
+            <t t-set="additional_title">RPH Transfer</t>
+
+            <div class="col-lg-8">
+                <header class="modal-header">
+                    <a href="/my/home" aria-label="Home" title="Home"><i class="fa fa-home"/></a>
+                    <h4 class="modal-title">RPH Transfer</h4>
+                </header>
+            </div>
+            <main class="modal-body">
+                <div class="row">
+                    <t t-if="not picking_list">
+                        Belum ada permintaan transfer
+                    </t>
+                    <t t-foreach="picking_list" t-as="picking">
+                        <div class='col-lg-8 mb-3'>
+                            <div class='card'>
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <strong><t t-esc="picking.name"/></strong>
+                                        </div>
+                                        <a class="btn btn-primary col-3" t-attf-href="/my/new_rph_questionnaire/{{picking.id}}">Isi Form</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <t t-if="picking.move_lines">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <td class="col-3">Produk</td>
+                                                <td class="col-3">Quantity</td>
+                                                <td class="col-3">Unit of Measure</td>
+                                                <td class="col-3">Date</td>
+                                            </tr>
+                                            <t t-foreach="picking.move_lines" t-as="move_line">
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="move_line.product_id.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="move_line.product_uom_qty"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="move_line.product_uom.display_name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="move_line.date"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </table>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </main>
+        </t>
+      </template>
+
+      <template id="portal_view_rph_questionnaire" name="RPH Questionnaire">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-set="title">RPH Questionnaire</t>
+            <t t-set="additional_title">RPH Questionnaire</t>
+
+            <div class="col-lg-8">
+                <header class="modal-header">
+                    <a href="/my/home" aria-label="Home" title="Home"><i class="fa fa-home"/></a>
+                    <h4 class="modal-title">RPH Questionnaire</h4>
+                </header>
+            </div>
+            <main class="modal-body">
+                <div class="row">
+                    <t t-if="not questionnaire">
+                        Belum ada kuesioner
+                    </t>
+                    <t t-foreach="questionnaire" t-as="quest">
+                        <div class='col-lg-8 mb-3'>
+                            <div class='card'>
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong><t t-esc="quest.name"/></strong>
+                                        </div>
+                                        <div class="col-6">
+                                            <span t-if="quest.is_halal == 'halal'"  class="float-right badge badge-info">
+                                                <i class="fa fa-fw fa-check" role="img" aria-label="Halal" title="Halal"/>Halal
+                                            </span>
+                                            <span t-if="quest.is_halal == 'non-halal'"  class="float-right badge badge-warning">
+                                                <i class="fa fa-fw fa-close" role="img" aria-label="Non-Halal" title="Non-Halal"/>Non-Halal
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                No Lot
+                                            </td>
+                                            <td class='p-4'/>
+                                            <td>
+                                                <t t-esc="quest.no_lot"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                Waktu Potong
+                                            </td>
+                                            <td class='p-4'/>
+                                            <td>
+                                                <t t-esc="quest.waktu_potong"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                Waktu Kirim
+                                            </td>
+                                            <td class='p-4'/>
+                                            <td>
+                                                <t t-esc="quest.waktu_kirim"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                Apakah anda memiliki sertifikat kehalalan ?
+                                            </td>
+                                            <td class='p-4'/>
+                                            <td>
+                                                <t t-if="quest.has_certificate == 'yes'">
+                                                    <b>Ya</b>
+                                                </t>
+                                                <t t-if="quest.has_certificate == 'no'">
+                                                    <b>Tidak</b>
+                                                </t>
+                                            </td>
+                                        </tr>
+
+                                        <t t-if="quest.has_certificate == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Sertifikat Halal
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <b><t t-esc="quest.certificate_no"/></b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Berlaku sampai tanggal
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <b><t t-esc="quest.certificate_exp"/></b>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <t t-if="quest.has_certificate == 'no'">
+                                            <tr>
+                                                <td>
+                                                    Apakah Penyembelih beragama islam?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.is_muslim == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.is_muslim == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="quest.is_muslim == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Apakah menggunakan pisau tajam dan sekali potong?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.use_sharp_knife == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.use_sharp_knife == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="quest.use_sharp_knife == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Apakah mengucap basmalah sebelum potong?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.with_basmalah == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.with_basmalah == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="quest.with_basmalah == 'yes'">
+                                            <tr>
+                                                <td>
+                                                    Apakah pemotongan memutus saluran pernafasan dan dua urat leher ?
+                                                </td>
+                                                <td class='p-4'/>
+                                                <td>
+                                                    <t t-if="quest.correctly_cut == 'yes'">
+                                                        <b>Ya</b>
+                                                    </t>
+                                                    <t t-if="quest.correctly_cut == 'no'">
+                                                        <b>Tidak</b>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </main>
+        </t>
+      </template>
+
+      <template id="portal_view_rph_questionnaire_not_found" name="RPH Questionnaire Not Found">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-set="title">RPH Questionnaire</t>
+            <t t-set="additional_title">Not Found</t>
+
+            <div class="col-lg-8">
+                <header class="modal-header">
+                    <a href="/my/home" aria-label="Home" title="Home"><i class="fa fa-home"/></a>
+                    <h4 class="modal-title">RPH Questionnaire</h4>
+                </header>
+            </div>
+            <main class="modal-body">
+                <div class="row">
+                    <t t-if="not questionnaire">
+                        Belum ada kuesioner
+                    </t>
+                </div>
+            </main>
+        </t>
+      </template>
+
+      <template id="portal_new_rph_questionnaire_picking_not_found" name="Transfer">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Not Found</t>
+            </t>
+            <div class="row">
+                <div class="col-12">
+                    <span>Transfer record is not found or maybe deleted</span>
+                </div>
+            </div>
+        </t>
+      </template>
+
+      <template id="portal_new_rph_questionnaire_with_picking" name="Transfer">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title" t-value="picking.name"/>
+            </t>
+            <div class="row">
+                <t t-esc="picking.name"/>
+                <div class="col-12">
+                    <div class="rph_questionnaire_container"/>
+                </div>
+            </div>
+        </t>
+      </template>
+
+      <template id="portal_new_rph_questionnaire" name="RPH New Questionnaire">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">New RPH Questionnaire</t>
+            </t>
+            <div class='card'>
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <strong><t t-esc="picking.name"/></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <t t-if="picking.move_lines">
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <td class="col-3">Produk</td>
+                                                <td class="col-3">Quantity</td>
+                                                <td class="col-3">Unit of Measure</td>
+                                                <td class="col-3">Date</td>
+                                            </tr>
+                                            <t t-foreach="picking.move_lines" t-as="move_line">
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="move_line.product_id.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="move_line.product_uom_qty"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="move_line.product_uom.display_name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="move_line.date"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </table>
+                                    </t>
+                                </div>
+                            </div>
+            <div class="row mt-4">
+                <div class="col-lg-12">
+                    <form id="accept" method="POST" class="js_accept_json modal-content js_website_submit_form">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <main class="modal-body" id="sign-dialog">
+                            <t t-if="show == 'no_lot'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Nomor Lot</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="text" id="no_lot" name="no_lot" placeholder="Nomor Lot"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='no_lot' t-att-value="data.get('no_lot')"/>
+                            </t>
+
+                            <t t-if="show == 'waktu_potong'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Kapan waktu pemotongan dilakukan</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="date" id="waktu_potong" name="waktu_potong"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='waktu_potong' t-att-value="data.get('waktu_potong')"/>
+                            </t>
+
+                            <t t-if="show == 'waktu_kirim'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Kapan waktu pengiriman dilakukan</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="date" id="waktu_kirim" name="waktu_kirim"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='waktu_kirim' t-att-value="data.get('waktu_kirim')"/>
+                            </t>
+
+                            <t t-if="show == 'has_certificate'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Apakah anda memiliki sertifikat kehalalan ?</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="radio" id="has_certificate_yes" name="has_certificate" value="yes"/>
+                                        <label for="has_certificate_yes">Yes</label><br/>
+                                        
+                                        <input type="radio" id="has_certificate_no" name="has_certificate" value="no"/>
+                                        <label for="has_certificate_no">No</label><br/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='has_certificate' t-att-value="data.get('has_certificate')"/>
+                            </t>
+                            <t t-if="show == 'certificate_no'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label for="certificate_no">No Sertifikat</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="text" id="certificate_no" name="certificate_no"/>
+                                    </div>
+                                    <div class="col-lg-12  mt-4">
+                                        <label for="certificate_exp">Tanggal Berakhir Sertifikat</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="date" id="certificate_exp" name="certificate_exp"/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='certificate_no' t-att-value="data.get('certificate_no')"/>
+                                <input type='hidden' name='certificate_exp' t-att-value="data.get('certificate_exp')"/>
+                            </t>
+                            <t t-if="show == 'is_muslim'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Apakah Penyembelih beragama islam?</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="radio" id="is_muslim_yes" name="is_muslim" value="yes"/>
+                                        <label for="is_muslim_yes">Yes</label><br/>
+                                        <input type="radio" id="is_muslim_no" name="is_muslim" value="no"/>
+                                        <label for="is_muslim_no">No</label><br/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='is_muslim' t-att-value="data.get('is_muslim')"/>
+                            </t>
+
+                            <t t-if="show == 'use_sharp_knife'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Apakah menggunakan pisau tajam dan sekali potong?</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="radio" id="use_sharp_knife_yes" name="use_sharp_knife" value="yes"/>
+                                        <label for="use_sharp_knife_yes">Yes</label><br/>
+                                        <input type="radio" id="use_sharp_knife_no" name="use_sharp_knife" value="no"/>
+                                        <label for="use_sharp_knife_no">No</label><br/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='use_sharp_knife' t-att-value="data.get('use_sharp_knife')"/>
+                            </t>
+
+                            <t t-if="show == 'with_basmalah'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Apakah mengucap basmalah sebelum potong?</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="radio" id="with_basmalah_yes" name="with_basmalah" value="yes"/>
+                                        <label for="with_basmalah_yes">Yes</label><br/>
+                                        <input type="radio" id="with_basmalah_no" name="with_basmalah" value="no"/>
+                                        <label for="with_basmalah_no">No</label><br/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='with_basmalah' t-att-value="data.get('with_basmalah')"/>
+                            </t>
+
+                            <t t-if="show == 'correctly_cut'">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <label>Apakah pemotongan memutus saluran pernafasan dan dua urat leher ?</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input type="radio" id="correctly_cut_yes" name="correctly_cut" value="yes"/>
+                                        <label for="correctly_cut_yes">Yes</label><br/>
+                                        <input type="radio" id="correctly_cut_no" name="correctly_cut" value="no"/>
+                                        <label for="correctly_cut_no">No</label><br/>
+                                    </div>
+                                </div>
+                            </t>
+                            <t t-else=''>
+                                <input type='hidden' name='correctly_cut' t-att-value="data.get('correctly_cut')"/>
+                            </t>
+
+                            <t t-if="show == 'correctly_cut' or show == 'certificate_no'">
+                                <input type='hidden' name='apply' value='1'/>
+                                <button type="submit" class="btn btn-primary mt-3">Ajukan</button>
+                            </t>
+                            <t t-else=''>
+                                <button type="submit" class="btn btn-primary mt-3">Selanjutnya</button>
+                            </t>
+                            
+                        </main>
+                    </form>
+                </div>
+            </div>
+        </t>
+      </template>
+
+      <template id="portal_new_rph_questionnaire_success" name="RPH New Questionnaire Success">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">New RPH Questionnaire</t>
+            </t>
+            <div class="row">
+                <div class="col-lg-12">
+                    <header class="modal-header">
+                        <h4 class="modal-title">RPH Questionnaire</h4>
+                    </header>
+                    <main class="modal-body" id="sign-dialog">
+                        <p>Terima kasih sudah mengisi formulir sertifikat halal</p>
+                        <a href="/my/rph_questionnaire">Kembali</a>
+                    </main>
+                </div>
+            </div>
+        </t>
+      </template>
+    </data>
+</odoo>

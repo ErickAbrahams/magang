@@ -1,0 +1,130 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="rph_questionnaire.list">
+      <field name="name">rph_questionnaire list</field>
+      <field name="model">rph.questionnaire</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="has_certificate"/>
+          <field name="certificate_no"/>
+          <field name="certificate_exp"/>
+          
+          <field name="is_muslim"/>
+          <field name="use_sharp_knife"/>
+          <field name="with_basmalah"/>
+          <field name="correctly_cut"/>
+          <field name="is_halal"/>
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="action_window">
+      <field name="name">RPH Questionnaire</field>
+      <field name="res_model">rph.questionnaire</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="rph_questionnaire_tree_view" model="ir.ui.view">
+        <field name="name">rph.questionnaire.tree</field>
+        <field name="model">rph.questionnaire</field>
+        <field name="arch" type="xml">
+            <tree string="Questionnaire" create="false" edit="false">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="is_halal"/>
+                <field name="write_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="rph_questionnaire_form_view" model="ir.ui.view">
+        <field name="name">rph.questionnaire.form</field>
+        <field name="model">rph.questionnaire</field>
+        <field name="arch" type="xml">
+            <form string="Questionnaire" create="false" edit="false">
+              <header>
+                <button name="assign_lot" string="Assign Lot" type="object" class="btn-primary" groups="base.group_no_one"/>
+                <button name="action_confirm" string="Confirm" type="object" states="draft" class="btn-primary"/>
+                <button name="action_process" string="Process" type="object" states="process" class="btn-primary"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,process,done"/>
+              </header>
+              <sheet>
+                <div class="oe_title">
+                    <label for="partner_id"/>
+                    <h1><field name="partner_id"/></h1>
+                </div>
+                <group>
+                  <group>
+                    <field name="picking_id"/>
+                  </group>
+                </group>
+                <group>
+                  <group>
+                    <field name="no_lot"/>
+                    <field name="waktu_potong"/>
+                    <field name="waktu_kirim"/>
+                  </group>
+                </group>
+                
+                <group>
+                  <group>
+                    <field name="has_certificate" widget='radio'/>
+                  </group>
+                  <group attrs="{'invisible': [('has_certificate', '!=', 'yes')]}">
+                    <field name="certificate_no"/>
+                    <field name="certificate_exp"/>
+                  </group>
+                </group>
+
+                <group attrs="{'invisible': [('has_certificate', '!=', 'no')]}">
+                  <group>
+                    <field name="is_muslim" widget='radio'/>
+                    <br/>
+                    <field name="use_sharp_knife" widget='radio' attrs="{'invisible': [('is_muslim', '!=', 'yes')]}"/>
+                    <br/>
+                    <field name="with_basmalah" widget='radio' attrs="{'invisible': [('use_sharp_knife', '!=', 'yes')]}"/>
+                    <br/>
+                    <field name="correctly_cut" widget='radio' attrs="{'invisible': [('with_basmalah', '!=', 'yes')]}"/>
+                  </group>
+                </group>
+
+
+                <group>
+                  <group>
+                    <field name="is_halal" attrs="{'invisible': [('state', '!=', 'done')], 'readonly': True}"/>
+                  </group>
+                </group>
+              </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="rph_questionnaire.action_server">
+      <field name="name">rph_questionnaire server</field>
+      <field name="model_id" ref="model_rph_questionnaire_rph_questionnaire"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- menu categories -->
+
+    <menuitem name="RPH Questionnaire" id="menu_1" parent="restaurant_questionnaire.menu_root" action="action_window"/>
+
+  </data>
+</odoo>
