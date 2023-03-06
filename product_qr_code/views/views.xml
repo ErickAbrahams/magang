@@ -1,0 +1,14 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="product_qr_code_inherit">
+      <field name="name">product_qr_code list</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_form_view"/>
+      <field name="arch" type="xml">
+        <div name="button_box" position="inside">
+            <button class="oe_stat_button" name="generate_qr" type="object" icon="fa-qrcode" string="Download QR"/>
+        </div>
+      </field>
+    </record>
+  </data>
+</odoo>
